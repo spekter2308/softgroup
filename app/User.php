@@ -36,4 +36,17 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+	/**
+	 * Отримати зображення користувача
+	 */
+    public function image()
+	{
+		return $this->morphOne(Image::class, 'imageable');
+	}
+
+	public function posts()
+	{
+		return $this->hasMany(Post::class);
+	}
 }
