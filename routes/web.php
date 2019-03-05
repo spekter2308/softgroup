@@ -13,9 +13,20 @@
 
 
 Auth::routes();
-
 Route::get('/home', 'HomeController@index')->name('home');
+
+//default for logout (link for /posts)
+Route::get('/', 'PostController@index');
 
 //>Posts pages
 Route::resource('/posts', 'PostController')
 	->names('posts');
+
+
+//<Admin part (for control users)
+Route::resource('/users', 'UserController')
+	->except('create', 'show')
+	->names('users')->middleware('admin');
+
+
+//>

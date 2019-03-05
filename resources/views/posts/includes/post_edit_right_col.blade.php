@@ -55,7 +55,7 @@
 			{{--Для форми видалення--}}
 			<div class="field">
 				<div class="control has-text-centered">
-					<button type="submit" class="button is-link" form="post-delete">Видалити</button>
+					<button type="submit" class="button is-danger" form="post-delete">Видалити</button>
 				</div>
 			</div>
 		@endif

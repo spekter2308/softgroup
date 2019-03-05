@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PostCreateRequest;
 use App\Http\Requests\PostUpdateRequest;
+use App\User;
 use Illuminate\Http\Request;
 use App\Repositories\PostRepository;
 use App\Http\Controllers\Controller;
@@ -25,6 +26,7 @@ class PostController extends Controller
 	{
 		parent::__construct();
 		$this->postRepository = app(PostRepository::class);
+		$this->middleware('auth', ['except' => ['index', 'show']]);
 	}
 
 	/**
@@ -36,7 +38,7 @@ class PostController extends Controller
     {
     	$paginator = $this->postRepository->getAllWithPaginate(8);
 
-        return view('posts.index', compact('paginator'));
+    	return view('posts.index', compact('paginator'));
     }
 
     /**
@@ -46,6 +48,12 @@ class PostController extends Controller
      */
     public function create()
     {
+    	if(\Gate::denies('add', Post::class)){
+    		return redirect()
+				->back()
+				->with(['error' => 'Обмеження прав доступу. Потрібні права адміністратора або редактора']);
+		}
+
         return view('posts.create');
     }
 
@@ -58,7 +66,7 @@ class PostController extends Controller
     public function store(PostCreateRequest $request)
     {
 		$data = $request->input();
-		$data['user_id'] = 1;
+		$data['user_id'] = auth()->user()->id;
 		$data['content_row'] = strip_tags($data['content_html']);
 		$data['excerpt'] = \Str::words($data['content_row'], 10,'...');
 
@@ -72,7 +80,7 @@ class PostController extends Controller
 			return redirect('/posts')
 				->with(['success' => 'Успішно додано']);
 		} else {
-			return back()->withErrors(['msq' => 'Помилка додавання'])
+			return back()->withErrors(['msg' => 'Помилка додавання'])
 				->withInput();
 		}
     }
@@ -101,6 +109,12 @@ class PostController extends Controller
     {
 		$post = $this->postRepository->getPost($id);
 		abort_if(!$post, 404);
+
+		if(\Gate::denies('update', $post)){
+			return redirect()
+				->back()
+				->with(['error' => 'Обмеження прав доступу. Зверніться до адміністратора']);
+		}
 
 		return view('posts.edit', compact('post'));
 
@@ -136,7 +150,6 @@ class PostController extends Controller
 				->withErrors(['msg' => "Помилка збереження"])
 				->withInput();
 		}
-
     }
 
     /**
@@ -148,7 +161,14 @@ class PostController extends Controller
     public function destroy($id)
     {
         $post = Post::find($id);
+
+		if(\Gate::denies('delete', $post)){
+			return redirect()
+				->back()
+				->with(['error' => 'Обмеження прав доступу. Зверніться до адміністратора']);
+		}
+
         $post->delete();
-        return redirect('/posts')->with(['success' => "Пост успішно видалено"]);;
+        return redirect('/posts')->with(['success' => "Пост успішно видалено"]);
     }
 }

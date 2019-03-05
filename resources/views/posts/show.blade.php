@@ -2,6 +2,8 @@
 
 @section('content')
 
+	@include('layouts.success')
+
 	@php
 		/** @var \App\Post $post */
 	@endphp
@@ -21,12 +23,12 @@
 						</figure>
 					</div>
 					<div class="media-content" style="margin: auto 10px;">
-						<p class="title is-4">{{ $post->user_id }}</p>
+						<p class="title is-4">{{ $post->user->name }}</p>
 					</div>
 				</div>
 			</div>
 
-			<h1 class="title column is-four-fifths has-text-centered"">
+			<h1 class="title column is-four-fifths has-text-centered">
 				{{ $post->title }}
 			</h1>
 

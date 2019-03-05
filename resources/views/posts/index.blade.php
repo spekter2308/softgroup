@@ -6,6 +6,10 @@
 
 	<div class="container">
 
+		<h1 class="title has-text-centered">
+			Всі пости
+		</h1>
+
 			<nav class="navbar navbar-toggle-toggleleable-md navbar-light bg-faded" style="background: none;">
 				<a class="btn btn-primary" href="{{route('posts.create') }}">Додати новий</a>
 			</nav>
@@ -24,7 +28,7 @@
 				</h1>
 				<div class="level-left border-bottom border-top" style="padding: 5px 0; color: #ccc;">
 					<p class="level-item" style="border-right: 1px solid #ccc; padding-right: 15px;">
-						Автор: {{ $post->user_id }}
+						Автор: {{ $post->user->name }}
 					</p>
 					<p class="level-item" style="border-right: 1px solid #ccc; padding-right: 15px;">
 						Дата публікації: {{ $post->published_at ? \Carbon\Carbon::parse($post->published_at)->format('d M Y') : ''}}

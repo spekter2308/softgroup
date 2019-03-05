@@ -8,9 +8,17 @@
 	{{--Ліва сторона меню--}}
 	<div class="navbar-start d-inline-flex">
 		<div class="navbar-item">
-			<a href="" style="color: white;" onmouseover="this.style.textDecoration ='none';">
-				Користувачі (для адміністратора)
+			<a href="{{route('users.index')}}" style="color: white; margin: auto 10px;" onmouseover="this
+			.style
+			.textDecoration
+			='none';">
+				Користувачі (admin)
 			</a>
+			{{--<a href="{{ route('home') }}" style="color: white; margin: auto 10px;" onmouseover="this.style
+			.textDecoration
+			='none';">
+				Мої статті
+			</a>--}}
 		</div>
 	</div>
 
@@ -28,14 +36,16 @@
 			@endif
 		@else
 			<li class="nav-item dropdown">
-				<a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+				<a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre style="color: white;">
 					{{ Auth::user()->name }} <span class="caret"></span>
 				</a>
 
 				<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-					<a class="dropdown-item" href="{{ route('logout') }}"
-					 	onclick="event.preventDefault();
-							document.getElementById('logout-form').submit();">
+					<a class="dropdown-item" href="{{ route('home') }}">
+						Мої статті
+					</a>
+					<a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document
+					.getElementById('logout-form').submit();" >
 							{{ __('Logout') }}
 					</a>
 

@@ -35,6 +35,9 @@ class PostRepository extends CoreRepository
 		$result = $this->startConditions()
 			->select($columns)
 			->orderBy('id', 'DESC')
+			->with([
+				'user:id,name'
+			])
 			->paginate($perPage);
 		return $result;
 	}
@@ -47,7 +50,9 @@ class PostRepository extends CoreRepository
 	 */
 	public function getPost($id)
 	{
-		return $this->startConditions()->find($id);
+		return $this->startConditions()
+			->with(['user:id,name'])
+			->find($id);
 	}
 
 }
