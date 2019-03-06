@@ -8,7 +8,7 @@
 
 	@include('layouts.errors')
 
-		<form method="POST" action="{{ route('posts.store') }}">
+		<form method="POST" action="{{ route('posts.store') }}" enctype="multipart/form-data">
 		@csrf
 
 		<div class="container">
@@ -70,11 +70,28 @@
 							</div>
 
 							<div class="field">
+								<div class="file is-right is-info">
+									<label class="file-label">
+										<input class="file-input" type="file" name="cover_image" id="file-image">
+										<span class="file-cta">
+											<span class="file-icon">
+												<i class="fas fa-upload"></i>
+											</span>
+											<span class="file-label">
+											  	Зображення
+											</span>
+										  </span>
+										<span id="file-image-name" class="file-name"></span>
+									</label>
+								</div>
+							</div>
+							<br>
+
+							<div class="field">
 								<div class="control has-text-centered">
 									<button type="submit" class="button is-link">Зберегти пост</button>
 								</div>
 							</div>
-
 
 						</div>
 					</div>
@@ -88,6 +105,14 @@
 
 	<script>
 		CKEDITOR.replace( 'editor' );
+
+		var file = document.getElementById("file-image");
+		file.onchange = function(){
+			if(file.files.length > 0)
+			{
+				document.getElementById('file-image-name').innerHTML = file.files[0].name;
+			}
+		};
 	</script>
 
 @endsection

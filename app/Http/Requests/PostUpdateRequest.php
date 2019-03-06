@@ -28,6 +28,7 @@ class PostUpdateRequest extends FormRequest
 			'slug' => 'max:200',
 			'excerpt' => 'max:200',
 			'content_html' => 'string|min:3|max:5000',
+			'image|nullable|max:1999'
 		];
     }
 }

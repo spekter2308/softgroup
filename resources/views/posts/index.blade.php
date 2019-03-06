@@ -41,7 +41,7 @@
 				<article class="media">
 					<div class="media-left desktop column is-6">
 						<a href="{{ route('posts.show', $post->id) }}">
-							<img src="http://placehold.it/900x600">
+							<img src="/storage/cover_images/{{ $post->cover_image }}" height="600px" width="900px">
 						</a>
 					</div>
 					<div class="media-content">

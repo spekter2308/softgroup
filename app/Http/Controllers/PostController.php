@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PostCreateRequest;
 use App\Http\Requests\PostUpdateRequest;
+use Illuminate\Support\Facades\Storage;
 use App\User;
 use Illuminate\Http\Request;
 use App\Repositories\PostRepository;
@@ -65,10 +66,30 @@ class PostController extends Controller
      */
     public function store(PostCreateRequest $request)
     {
+    	//Upload image
+		if($request->hasFile('cover_image')){
+			//name with extention
+			$filenameWithExt = $request->file('cover_image')->getClientOriginalName();
+			//only name
+			$filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+			//only extention
+			$extention = $request->file('cover_image')->getClientOriginalExtension();
+			//Filename to store
+			$fileNameToStore = $filename.'_'.time().'.'.$extention;
+			//Upload
+			$path = $request->file('cover_image')->storeAs('public/cover_images', $fileNameToStore);
+
+		} else {
+			$fileNameToStore = 'no_image.jpg';
+		}
+
+    	//Create post
 		$data = $request->input();
 		$data['user_id'] = auth()->user()->id;
 		$data['content_row'] = strip_tags($data['content_html']);
 		$data['excerpt'] = \Str::words($data['content_row'], 10,'...');
+		//for image
+		$data['cover_image'] = $fileNameToStore;
 
 		if(empty($data['slug'])){
 			$data['slug'] = str_slug($data['title']);
@@ -129,11 +150,30 @@ class PostController extends Controller
      */
     public function update(PostUpdateRequest $request, $id)
     {
+
+		//Upload image
+		if($request->hasFile('cover_image')){
+			//name with extention
+			$filenameWithExt = $request->file('cover_image')->getClientOriginalName();
+			//only name
+			$filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+			//only extention
+			$extention = $request->file('cover_image')->getClientOriginalExtension();
+			//Filename to store
+			$fileNameToStore = $filename.'_'.time().'.'.$extention;
+			//Upload
+			$path = $request->file('cover_image')->storeAs('public/cover_images', $fileNameToStore);
+		}
+
+		//post update
 		$post = $this->postRepository->getPost($id);
 
 		$data = $request->input();
 		$data['content_row'] = strip_tags($data['content_html']);
 		$data['excerpt'] = \Str::words($data['content_row'], 10,'...');
+		if($request->hasFile('cover_image')){
+			$data['cover_image'] = $fileNameToStore;
+		}
 
 		if(empty($data['slug'])){
 			$data['slug'] = str_slug($data['title']);
@@ -166,6 +206,11 @@ class PostController extends Controller
 			return redirect()
 				->back()
 				->with(['error' => 'Обмеження прав доступу. Зверніться до адміністратора']);
+		}
+
+		if($post->cover_image != 'no_image.jpg'){
+			//delete image
+			Storage::delete('public/cover_images/'.$post->cover_image);
 		}
 
         $post->delete();

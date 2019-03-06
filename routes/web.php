@@ -27,6 +27,4 @@ Route::resource('/posts', 'PostController')
 Route::resource('/users', 'UserController')
 	->except('create', 'show')
 	->names('users')->middleware('admin');
-
-
 //>

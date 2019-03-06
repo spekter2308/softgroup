@@ -40,10 +40,10 @@ class User extends Authenticatable
 	/**
 	 * Отримати зображення користувача
 	 */
-    public function image()
+    /*public function image()
 	{
 		return $this->morphOne(Image::class, 'imageable');
-	}
+	}*/
 
 	/**
 	 * Отримати всі пости користувача

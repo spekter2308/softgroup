@@ -30,7 +30,7 @@ class PostRepository extends CoreRepository
 	public function getAllWithPaginate($perPage)
 	{
 		$columns = [
-			'id', 'title', 'slug', 'excerpt', 'is_published', 'published_at', 'user_id', 'deleted_at'
+			'id', 'title', 'slug', 'excerpt', 'is_published', 'published_at', 'user_id', 'deleted_at', 'cover_image'
 		];
 		$result = $this->startConditions()
 			->select($columns)

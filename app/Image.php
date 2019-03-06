@@ -10,8 +10,8 @@ class Image extends Model
 	/**
 	 * Отримати всіх моделей власників
 	 */
-    public function imageable()
+    /*public function imageable()
 	{
 		return $this->morphTo();
-	}
+	}*/
 }

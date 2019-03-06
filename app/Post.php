@@ -12,12 +12,12 @@ class Post extends Model
     protected $guarded = [];
 
 	/**
-	 * Отримати зображення посту
+	 * Отримати зображення для галереї
 	 */
-    public function image()
+    /*public function image()
 	{
 		return $this->morphOne(Image::class, 'imageable');
-	}
+	}*/
 
 	public function user()
 	{

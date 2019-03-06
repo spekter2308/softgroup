@@ -9,7 +9,7 @@
 	@include('layouts.errors')
 	@include('layouts.success')
 
-	<form id="post-update" method="POST" action="{{ route('posts.update', $post->id) }}">
+	<form id="post-update" method="POST" action="{{ route('posts.update', $post->id) }}" enctype="multipart/form-data">
 		@method('PATCH')
 		@csrf
 
@@ -34,6 +34,14 @@
 
 	<script>
 		CKEDITOR.replace( 'editor' );
+
+		var file = document.getElementById("file-image");
+		file.onchange = function(){
+			if(file.files.length > 0)
+			{
+				document.getElementById('file-image-name').innerHTML = file.files[0].name;
+			}
+		};
 	</script>
 
 @endsection

@@ -58,6 +58,25 @@
 								</textarea>
 					</div>
 				</div>
+
+				<div class="field">
+					<div class="file is-right is-info">
+						<label class="file-label">
+							<input class="file-input" type="file" name="cover_image" id="file-image">
+							<span class="file-cta">
+											<span class="file-icon">
+												<i class="fas fa-upload"></i>
+											</span>
+											<span class="file-label">
+											  	Зображення
+											</span>
+										  </span>
+							<span id="file-image-name" class="file-name"></span>
+						</label>
+					</div>
+				</div>
+				<br>
+
 			</div>
 		</div>
 	</div>

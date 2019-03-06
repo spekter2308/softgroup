@@ -14,11 +14,12 @@ $factory->define(App\Post::class, function (Faker $faker) {
 		'user_id' => rand(1, 3),
 		'title' => $title,
 		'slug' => str_slug($title),
-		'excerpt' => $faker->text(rand(160, 350)),
+		'excerpt' => $faker->text(rand(150, 180)),
 		'content_row' => $txt,
 		'content_html' => $txt,
 		'is_published' => $isPublished,
 		'published_at' => $isPublished ? $faker->dateTimeBetween('-2 month', '-1 days') : null,
+		'cover_image' => 'no_image.jpg',
 		'created_at' => $createdAt,
 		'updated_at' => $createdAt,
 	];
