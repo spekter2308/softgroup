@@ -52,6 +52,7 @@ class PostRepository extends CoreRepository
 	{
 		return $this->startConditions()
 			->with(['user:id,name'])
+			->with(['comments:commentable_id,comment,user_id,id'])
 			->find($id);
 	}
 
