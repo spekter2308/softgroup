@@ -19,6 +19,13 @@ class CommentController extends Controller
     public function addPostComment(Request $request, Post $post)
     {
 		$comment = new Comment;
+
+		if(\Gate::denies('create', $comment)){
+			return redirect()
+				->back()
+				->with(['error' => 'Обмеження прав доступу']);
+		}
+
 		$comment->comment = $request->comment;
 		$comment->user_id = auth()->user()->id;
 
@@ -38,6 +45,13 @@ class CommentController extends Controller
 		]);
 
 		$reply = new Comment();
+
+		if(\Gate::denies('create', $reply)){
+			return redirect()
+				->back()
+				->with(['error' => 'Обмеження прав доступу']);
+		}
+
 		$reply->comment = $request->comment;
 		$reply->user_id = auth()->user()->id;
 		$reply->parent_id = $id;
@@ -61,6 +75,12 @@ class CommentController extends Controller
 			'comment' => 'required'
 		]);
 
+		if(\Gate::denies('update', $comment)){
+			return redirect()
+				->back()
+				->with(['error' => 'Обмеження прав доступу']);
+		}
+
 		$comment->update($request->all());
 
 		return back()->with(['success' => 'Коментар успішно оновлено']);
@@ -74,6 +94,12 @@ class CommentController extends Controller
 	 */
 	public function destroy(Comment $comment)
 	{
+		if(\Gate::denies('delete', $comment)){
+			return redirect()
+				->back()
+				->with(['error' => 'Обмеження прав доступу']);
+		}
+
 		$comment->delete();
 
 		return back()->with(['success' => 'Коментар успішно видалено']);

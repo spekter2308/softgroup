@@ -6,7 +6,6 @@ use App\Http\Requests\PostCreateRequest;
 use App\Http\Requests\PostUpdateRequest;
 use Illuminate\Support\Facades\Storage;
 use App\User;
-use Illuminate\Http\Request;
 use App\Repositories\PostRepository;
 use App\Http\Controllers\Controller;
 use App\Post;
